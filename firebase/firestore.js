@@ -1,5 +1,5 @@
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore'
-import app from './firebase'
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy } from 'firebase/firestore'
+import { app } from './firebase'
 
 const db = getFirestore(app)
 
@@ -13,4 +13,9 @@ export const getData = async (collectionName) => {
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
 }
 
-export default db
+export const getCheckinsByUserId = async (userId) => {
+  const checkinsCollection = collection(db, 'checkins');
+  const q = query(checkinsCollection, where('userId', '==', userId), orderBy('timestamp', 'desc'));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};

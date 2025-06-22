@@ -13,7 +13,9 @@
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "clsx": "^2.0.0",
+    "date-fns": "^4.1.0",
     "firebase": "^11.6.0",
+    "firebase-admin": "^13.4.0",
     "framer-motion": "^11.18.2",
     "next": "^15.3.0",
     "react": "^18.2.0",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "22.14.1",
+    "@types/react": "19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
     "@typescript-eslint/parser": "^8.33.1",
     "autoprefixer": "^10.4.21",

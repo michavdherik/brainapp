@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
-const SymptomCard = ({ onNext }: { onNext: (symptoms: string[]) => void }) => {
+const SymptomCard = ({ onNext }: { onNext: (symptoms: string[]) => void }) => { // Keep the type, remove the parameter name
   const [symptoms, setSymptoms] = useState<string[]>([])
   const symptomOptions = ['Headache', 'Dizziness', 'Nausea', 'Fatigue']
 

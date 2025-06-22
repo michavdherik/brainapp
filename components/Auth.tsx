@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { auth } from '../firebase/firebase'
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, AuthError } from 'firebase/auth'
 
 export default function Auth() {
   const [email, setEmail] = useState('')
@@ -20,8 +20,13 @@ export default function Auth() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password)
       }
-    } catch (err: any) {
-      setError(err.message)
+    } catch (error: any) { // Use 'any' or 'Error' initially for the caught error
+      // Check if the error object exists and has properties typical of Firebase Auth errors
+      if (error && typeof error === 'object' && 'code' in error && 'message' in error) {
+        setError(error.message) // AuthError has a message property
+      } else {
+        setError('An unknown error occurred.')
+      }
     }
   }
 

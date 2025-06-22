@@ -40,21 +40,31 @@ const questions = [
   },
 ]
 
-export default function CheckIn() {
-  const [currentQuestion, setCurrentQuestion] = useState<number | null>(null)
-  const [answers, setAnswers] = useState<Record<string, any>>({})
+interface CheckInAnswers {
+  feeling?: string;
+  symptoms?: string[];
+  intensity?: string;
+  triggers?: string[];
+  focus?: string[];
+}
+
+interface CheckInProps {
+  onCheckInComplete: (answers: Record<string, any>) => void;
+}
+
+export default function CheckIn({ onCheckInComplete }: CheckInProps) {
+  const [currentQuestion, setCurrentQuestion] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<Record<string, any>>({});
 
   const handleAnswer = (field: string, value: any) => {
     setAnswers((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleNext = () => {
-    if (currentQuestion === null) {
-      setCurrentQuestion(0)
-    } else if (currentQuestion < questions.length - 1) {
+    if (currentQuestion === questions.length - 1) {
+      onCheckInComplete(answers);
+    } else if (currentQuestion === null) {
       setCurrentQuestion((prev) => (prev !== null ? prev + 1 : null))
-    } else {
-      setCurrentQuestion(questions.length)
     }
   }
 
@@ -97,8 +107,8 @@ export default function CheckIn() {
               min="1"
               max="10"
               className="w-full"
-              value={answers[questions[currentQuestion].field] || ''}
-              onChange={(e) =>
+              value={answers[questions[currentQuestion].field] as string || ''}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleAnswer(questions[currentQuestion].field, e.target.value)
               }
             />
@@ -111,7 +121,7 @@ export default function CheckIn() {
                 ? answers[questions[currentQuestion].field].join(', ')
                 : answers[questions[currentQuestion].field] || ''}
               onChange={(e) =>
-                handleAnswer(
+                handleAnswer( // This handler likely needs more specific typing if you're dealing with arrays
                   questions[currentQuestion].field,
                   e.target.value.split(',').map(s => s.trim())
                 )

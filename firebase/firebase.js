@@ -1,3 +1,5 @@
+// This file initializes Firebase Analytics and Firestore.
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, isSupported } from 'firebase/analytics'
@@ -9,14 +11,17 @@ import { getAuth } from 'firebase/auth'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAxHfqcyAprHfiVe2_-heN2UsnG7Zpo2rE',
-  authDomain: 'brainapp-a02b3.firebaseapp.com',
-  projectId: 'brainapp-a02b3',
-  storageBucket: 'brainapp-a02b3.firebasestorage.app',
-  messagingSenderId: '506974421608',
-  appId: '1:506974421608:web:3052a71cfb5fbac4a6b1dd',
-  measurementId: 'G-LKBZQ82GB7',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
+
+console.log("Firebase Config:", firebaseConfig); // Add this line
+console.log("Process Environment:", process.env);
+console.log("NEXT_PUBLIC_FIREBASE_API_KEY:", process.env.NEXT_PUBLIC_FIREBASE_API_KEY); // Debugging line
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
@@ -25,5 +30,6 @@ const app = initializeApp(firebaseConfig)
 let analytics = null
 isSupported().then(yes => yes && (analytics = getAnalytics(app)))
 
+export { app };
 export const db = getFirestore(app)
 export const auth = getAuth(app)
